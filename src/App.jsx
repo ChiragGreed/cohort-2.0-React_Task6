@@ -6,7 +6,8 @@ const App = () => {
 
   function SubmitHandler(e) {
     e.preventDefault();
-    Setusers([...users, Name, Role, Description, url]);
+    console.log(Adduser());
+    Setusers([...users, { Name, Role, Description, Url }]);
     SetName('');
     SetRole('');
     SetDescription('');
@@ -17,7 +18,7 @@ const App = () => {
   const [Name, SetName] = useState("");
   const [Role, SetRole] = useState("");
   const [Description, SetDescription] = useState("");
-  const [url, Seturl] = useState("");
+  const [Url, Seturl] = useState("");
 
   function changeName(elem) {
     SetName(elem);
@@ -34,16 +35,26 @@ const App = () => {
 
 
   function Adduser() {
-    return <div>
-      {users.map((elem, idx) => {
-        return <h1 key={idx} className="text-2xl text-white">{elem}</h1>
-      })}
-    </div>
+    let newusers = users.map((elem) => {
+      return <div className="bg-[#cecece] flex gap-4 mb-4 items-top px-4 py-2 pr-40 rounded-4xl">
+        <div className="h-20 w-20 rounded-full bg-cover bg-center" style={{ backgroundImage: `url(${elem.Url})` }} />
+        <div>
+          <div className="mb-2">
+            <h1 className="text-3xl font-bold">{elem.Name}</h1>
+            <h3 className="text-xl font-bold">{elem.Role}</h3>
+          </div>
+          <p className="text-sm text-[#1c1c1c]">{elem.Description}.</p>
+        </div>
+      </div>
+    })
+    return newusers;
   }
 
+
+
   return (
-    <div className="grid grid-cols-[1fr_2fr]">
-      <div className="mr-10">
+    <div className="flex">
+      <div className="mr-10 flex-1">
         <form
           onSubmit={(e) => {
             SubmitHandler(e);
@@ -86,26 +97,16 @@ const App = () => {
             className="text-white bg-gray-800 py-5 px-3 w-full border-2 border-gray-200 text-xl rounded-3xl"
             type="text"
             placeholder='Enter image url'
-            value={url}
+            value={Url}
           />
 
           <button className="text-white font-bold bg-green-600 text-2xl px-10 py-2 rounded-2xl">Create User</button>
         </form>
       </div>
-
-      {/* <Adduser /> */}
-      <div>
-        <div className="bg-[#cecece] flex gap-4 items-top px-4 py-2 pr-40 rounded-4xl">
-          <div className="h-20 w-20 rounded-full bg-cover bg-center" style={{backgroundImage: "url('{url}')"}}/>
-          <div>
-            <div className="mb-2">
-              <h1 className="text-3xl font-bold">user[0]</h1>
-              <h3 className="text-xl font-bold">users[1]</h3>
-            </div>
-            <p className="text-sm text-[#1c1c1c]">users[3].</p>
-          </div>
-        </div>
+      <div className="bg-[#2F5755] flex-2 p-3 rounded-2xl">
+        <Adduser />
       </div>
+
     </div>
   )
 }
